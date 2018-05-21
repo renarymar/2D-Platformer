@@ -30,7 +30,7 @@ Vector3 Dir = new Vector3 (0, 0, 0);
 					MyEnemy Enemy = collision.gameObject.GetComponent<MyEnemy>();
 					if(Enemy != null) // Если ссылка не пуста
 						{
-							//Enemy.Hurt(Damage); // Вызываем метод урона и указываем его размер
+							Enemy.Hurt(Damage); // Вызываем метод урона и указываем его размер
 							Instantiate(BOOM, transform.position, transform.rotation);
 							Destroy(gameObject);
 						}
