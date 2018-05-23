@@ -4,36 +4,35 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-public GameObject BOOM;
-public int Damage;
-public float Speed, LifeTime;
+    [SerializeField] private float Speed;
+    [SerializeField] private Rigidbody2D Rocket;			//bullet object
+    [SerializeField] private GameObject Bazooka;
 
-Vector3 Dir = new Vector3 (0, 0, 0);
+    private BasicController PlayerFace;
 
-	// Use this for initialization
-	void Start () 
-	{
-		Dir.x = Speed;
-		Destroy(gameObject,LifeTime);
-	}
+    void Awake()
+    {
+        // Setting up the references.
+        //anim = transform.root.gameObject.GetComponent<Animator>();
+        PlayerFace = transform.root.GetComponent<BasicController>();
+    }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("Fire1"))
+            if (PlayerFace.facingRight)
 
-	void FixedUpdate () 
-	{
-		transform.position += Dir;
-	}
+            {
+                print("Стреляем вправо");
+                Rigidbody2D RB_rocket = Instantiate(Rocket, Bazooka.transform.position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
+                RB_rocket.velocity = new Vector2(Speed, 0);
+            }
+            else
+            {
+                print("Стреляем влево");
+                Rigidbody2D RB_rocket = Instantiate(Rocket, Bazooka.transform.position, Quaternion.Euler(new Vector3(0, 0, 180))) as Rigidbody2D;
+                RB_rocket.velocity = new Vector2(-Speed, 0);
 
-	void OnTriggerEnter2D(Collider2D collision)
-		{
-			if (collision.gameObject.tag == "Enemy")
-				{
-					MyEnemy Enemy = collision.gameObject.GetComponent<MyEnemy>();
-					if(Enemy != null) // Если ссылка не пуста
-						{
-							Enemy.Hurt(Damage); // Вызываем метод урона и указываем его размер
-							Instantiate(BOOM, transform.position, transform.rotation);
-							Destroy(gameObject);
-						}
-				}
-		}
+            }
+    }
 }
