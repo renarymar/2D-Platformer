@@ -10,7 +10,6 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 6100000}
   - component: {fileID: 5000000}
-  - component: {fileID: 114917581990123042}
   - component: {fileID: 114357548550171104}
   m_Layer: 9
   m_Name: rocket
@@ -3623,17 +3622,3 @@ MonoBehaviour:
   BOOM: {fileID: 100000, guid: 42404bf7d14c342f69690c9961a7530d, type: 2}
   Damage: 1
   LifeTime: 3
---- !u!114 &114917581990123042
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eebaaa1773ce3b46abf7915a40a65ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 10
-  Rocket: {fileID: 0}
-  Bazooka: {fileID: 0}

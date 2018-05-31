@@ -9,9 +9,9 @@ public class MyRocket : MonoBehaviour {
     [SerializeField] private float LifeTime;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
-        Destroy(gameObject,LifeTime);
+        Destroy(gameObject, LifeTime);
     }
 
     void OnTriggerEnter2D(Collider2D collision)

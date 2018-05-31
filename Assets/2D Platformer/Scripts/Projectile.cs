@@ -21,18 +21,23 @@ public class Projectile : MonoBehaviour {
     {
         if (Input.GetButtonDown("Fire1"))
             if (PlayerFace.facingRight)
-
-            {
-                print("Стреляем вправо");
-                Rigidbody2D RB_rocket = Instantiate(Rocket, Bazooka.transform.position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
-                RB_rocket.velocity = new Vector2(Speed, 0);
-            }
+                Shoot_Right(true);
             else
-            {
-                print("Стреляем влево");
-                Rigidbody2D RB_rocket = Instantiate(Rocket, Bazooka.transform.position, Quaternion.Euler(new Vector3(0, 0, 180))) as Rigidbody2D;
-                RB_rocket.velocity = new Vector2(-Speed, 0);
+                Shoot_Right(false);
+    }
 
-            }
+    void Shoot_Right(bool right)
+    {
+        if (!right)
+        {
+            Rigidbody2D RB_rocket = Instantiate(Rocket, Bazooka.transform.position, Quaternion.Euler(new Vector3(0, 0, 180))) as Rigidbody2D;
+            RB_rocket.velocity = new Vector2(-Speed, 0);
+        }
+
+        if (right)
+        {
+            Rigidbody2D RB_rocket = Instantiate(Rocket, Bazooka.transform.position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
+            RB_rocket.velocity = new Vector2(Speed, 0);
+        }
     }
 }

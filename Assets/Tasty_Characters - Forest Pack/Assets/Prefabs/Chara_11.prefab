@@ -94,6 +94,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1340555408040706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4435664022093140}
+  m_Layer: 9
+  m_Name: groundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1347731402747804
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1613012998153592
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +388,19 @@ Transform:
   m_Father: {fileID: 4908171509254354}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4435664022093140
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1340555408040706}
+  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.035000086, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4908171509254354}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4491410033236460
 Transform:
   m_ObjectHideFlags: 1
@@ -420,7 +448,7 @@ Transform:
   m_GameObject: {fileID: 1244940152763544}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.734, y: 8.917, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4056900000113126}
   - {fileID: 4249299429270110}
@@ -437,6 +465,7 @@ Transform:
   - {fileID: 4491410033236460}
   - {fileID: 4922046289856812}
   - {fileID: 4727242426245458}
+  - {fileID: 4435664022093140}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -563,11 +592,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0871f02ee7780e4d966e51383114d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Acceleration: 5
+  Acceleration: 6
   Bomb: {fileID: 100000, guid: 9f1c955688b614b259cf703b0b1c73d2, type: 2}
   StartBomb: {fileID: 1589528360525268}
-  jumpForce: 1000
-  facingRight: 1
+  jumpForce: 15
+  HP: 2
+  facingRight: 0
 --- !u!114 &114862673831535320
 MonoBehaviour:
   m_ObjectHideFlags: 1
