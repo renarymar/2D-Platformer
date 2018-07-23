@@ -82,7 +82,7 @@ public class BasicController : MonoBehaviour {
     public void Hurt(int Damage)
     {
         HP--;
-        Debug.Log("ЗДОРОВЬЕ: " + HP);
+        Debug.Log("HEALTH: " + HP);
         if (HP <= 0)
             Death();
     }

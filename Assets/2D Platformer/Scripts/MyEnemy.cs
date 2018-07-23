@@ -5,141 +5,101 @@ using UnityEngine;
 
 public class MyEnemy : MonoBehaviour
 {
-    [SerializeField] private int HP = 2;
-    [SerializeField] private int Health, AttackDamage;
-    [SerializeField] private float MaxDistance, ReloadTime, Speed, Fireball_Speed;
-    [SerializeField] private GameObject Target;
 
-    [SerializeField] private Rigidbody2D Fireball;			//bullet object
-    [SerializeField] private GameObject Bazooka;
 
-    public bool Angry = false;
-    bool IsForward = true, Cooldown = false;
+    #region Поля
+
     private Vector3 StartPos;
-    Vector3 Dir = new Vector3(1, 0);
-    [SerializeField] private LayerMask mask = 1 << 9;
+    private Vector3 MovementDirection;
+    [SerializeField] private GameObject Player;
+    [SerializeField] private Rigidbody2D Fireball;
+    [SerializeField] private GameObject Bazooka;
+    [SerializeField] private float Fireball_Speed;
+    [SerializeField] private LayerMask mask;
+    private Vector2 PlayerDirection;
+    private bool shooting = false;
+    private enum Mode { attack, search };
+    private Mode CurrentMode;
+    int HP;
+    #endregion
 
-    private void Start()
+    void Start()
     {
+        CurrentMode = Mode.search;
         StartPos = transform.position;
     }
 
     void FixedUpdate()
     {
+        if (CurrentMode == Mode.search) Search();
+        if (CurrentMode == Mode.attack) Attack();
+    }
+    
+    private void Attack()
+    {
+        Debug.Log("Attack");
+        if (IsTarget()) Shoot();
+        else
+        {
+            CurrentMode = Mode.search;
+        }
+    }
 
+    private void Search()
+    {
+        Debug.Log("Search");
+        if (IsTarget()) CurrentMode = Mode.attack;
+        else
+        {
+            CurrentMode = Mode.search;
+        }
+    }
+
+    private void Shoot()
+    {
+        Rigidbody2D RB_fireball = Instantiate(Fireball, Bazooka.transform.position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
+        RB_fireball.velocity = new Vector2(transform.position.x < Player.transform.position.x ? Fireball_Speed : -Fireball_Speed, 0);
+        Reload();
+        CurrentMode = Mode.search;
+    }
+
+    public bool IsTarget()
+    {
         RaycastHit2D hit_right = Physics2D.Raycast(transform.position, Vector2.right, 2, mask);
         RaycastHit2D hit_left = Physics2D.Raycast(transform.position, Vector2.left, 2, mask);
         Debug.DrawRay(transform.position, Vector2.right * 2, Color.red);
         Debug.DrawRay(transform.position, Vector2.left * 2, Color.red);
 
-        if (hit_right )
+        if (hit_left || hit_right)
         {
-
-            Debug.Log("Ой, справа");
-            Target = hit_right.collider.gameObject;
-            Angry = true;
-            Engage(true, false);
+            return true;
         }
-        else if (hit_left)
+        else
         {
-            Debug.Log("Ой, слева");
-
-            Target = hit_left.collider.gameObject;
-            Angry = true;
-            Engage(false, true);
+            return false;
         }
     }
 
+    private void Reload()
+    {
+
+    }
+
+    private void Patrol()
+    {
+
+    }
 
     public void Hurt(int Damage)
-		{
-			HP --;
-			if (HP <= 0)
-				Death();
-		}
-
-	public void Death ()
-	{
-        Angry = false;
-		Destroy(gameObject);
-	}
-
-
-
-    void Engage(bool right, bool left)
     {
-
-        SetEnemyFacingDirection();
-
-
-        if (right)
-        {
-            transform.position += Dir * Speed * Time.deltaTime;
-        }
-        else if (left)
-        {
-            transform.position -= -Dir * Speed * Time.deltaTime;
-        }
-
-        if (Vector2.Distance(transform.position, StartPos) > 2)
-            BackToSpawn();
-
-        if ((Vector2.Distance(transform.position, Target.transform.position) <= 1) && !Cooldown)
-        {
-            if (IsForward)
-                Shoot(true);
-            else Shoot(false);
-            Cooldown = true;
-            Invoke("Reload", ReloadTime);
-        }
+        HP--;
+        if (HP <= 0)
+            Death();
     }
 
-    void SetEnemyFacingDirection()
+    public void Death()
     {
-        float x = Target.transform.position.x - transform.position.x;
-
-        if (x < 1 && IsForward)
-            Flip();
-        else if (x > 1 && !IsForward)
-            Flip();
+        Destroy(gameObject);
     }
 
-    private void BackToSpawn()
-    {
-        Debug.Log("Идем домой");
-        if (transform.position.x != StartPos.x)
-        {
-            Dir.x = (StartPos.x - transform.position.x);
-            transform.Translate(Dir * Time.deltaTime * Speed);
-        }
-    }
-
-    void Reload()
-    {
-        Cooldown = false;
-    }
-
-    void Shoot(bool right)
-    {
-        if (!right)
-        {
-            Rigidbody2D RB_fireball = Instantiate(Fireball, Bazooka.transform.position, Quaternion.Euler(new Vector3(0, 0, 180))) as Rigidbody2D;
-            RB_fireball.velocity = new Vector2(-Fireball_Speed, 0);
-        }
-
-        if (right)
-        {
-            Rigidbody2D RB_fireball = Instantiate(Fireball, Bazooka.transform.position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
-            RB_fireball.velocity = new Vector2(Fireball_Speed, 0);
-        }
-    }
-
-    void Flip()
-    {
-        IsForward = !IsForward;
-        Dir.x *= -1;
-        Vector3 V = transform.localScale;
-        V.x *= -1;
-        transform.localScale = V;
-    }
 }

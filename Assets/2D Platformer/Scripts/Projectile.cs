@@ -8,19 +8,18 @@ public class Projectile : MonoBehaviour {
     [SerializeField] private Rigidbody2D Rocket;			//bullet object
     [SerializeField] private GameObject Bazooka;
 
-    private BasicController PlayerFace;
+    private BasicController Player;
 
     void Awake()
     {
         // Setting up the references.
-        //anim = transform.root.gameObject.GetComponent<Animator>();
-        PlayerFace = transform.root.GetComponent<BasicController>();
+        Player = transform.root.GetComponent<BasicController>();
     }
 
     private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
-            if (PlayerFace.facingRight)
+            if (Player.facingRight)
                 Shoot_Right(true);
             else
                 Shoot_Right(false);

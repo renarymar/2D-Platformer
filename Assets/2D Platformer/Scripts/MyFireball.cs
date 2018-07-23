@@ -24,7 +24,6 @@ public class MyFireball : MonoBehaviour {
                 Player.Hurt(Damage); // Вызываем метод урона и указываем его размер
                 Instantiate(BOOM, transform.position, transform.rotation);
                 Destroy(gameObject);
-
             }
         }
     }

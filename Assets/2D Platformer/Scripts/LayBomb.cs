@@ -1,47 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class LayBomb : MonoBehaviour {
 
-[SerializeField] private GameObject BOOM; //prefab of the explosion
-[SerializeField] private float bombForce = 100f;			// Force that enemies are thrown from the blast.
-[SerializeField] private AudioClip boom;					// Audioclip of explosion.
-[SerializeField] private GameObject explosion;			// Prefab of explosion effect.
+    [SerializeField] private GameObject Explosion;              // Explosion Prefab
+    [SerializeField] private AudioClip ExplosionAudio;			// Audioclip of explosion.
+    [SerializeField] private AudioClip fuse;                  // Audioclip of fuse.
+    [SerializeField] private float fuseTime;
 
+    private void Start()
+    {
+        StartCoroutine(BombDetonation());
+    }
 
+    IEnumerator BombDetonation()
+    {
+        // Play the fuse audioclip.
+        AudioSource.PlayClipAtPoint(fuse, transform.position);
 
+        // Wait for 2 seconds.
+        yield return new WaitForSeconds(fuseTime);
 
-	void OnTriggerEnter2D(Collider2D collision)
-		{
-			if (collision.gameObject.tag == "Enemy") //if bomb colides with an object that tagged as Enemy
-				{
-					MyEnemy Enemy = collision.gameObject.GetComponent<MyEnemy>();
-					if(Enemy != null) // if the link is valid
-						{
-				 			Enemy.Death(); //initiate the enemy's death
-							Instantiate(BOOM, transform.position, transform.rotation); //show the explosion
+        // Explode the bomb.
+        BombExplosion();
+    }
 
-							// Find a vector from the bomb to the enemy.
-							Rigidbody2D rb = Enemy.GetComponent<Rigidbody2D>();
-							Vector3 deltaPos = rb.transform.position - transform.position;
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy") //if bomb colides with an object that tagged as Enemy
+        {
+            MyEnemy Enemy = collision.gameObject.GetComponent<MyEnemy>();
+            if (Enemy != null) // if the link is valid
+            {
+                BombExplosion();
+                Enemy.Death(); //initiate the enemy's death
+            }
+        }
+    }
 
-							// Apply a force in this direction with a magnitude of bombForce.
-							Vector3 force = deltaPos.normalized * bombForce;
-							rb.AddForce(force);
+    void BombExplosion()
+    {
+        // Instantiate the explosion prefab.
+        Instantiate(Explosion, transform.position, Quaternion.identity);
 
-				// Instantiate the explosion prefab.
-		Instantiate(explosion,transform.position, Quaternion.identity);
+        // Play the explosion sound effect.
+        AudioSource.PlayClipAtPoint(ExplosionAudio, transform.position);
 
-		// Play the explosion sound effect.
-		AudioSource.PlayClipAtPoint(boom, transform.position);	
-
-							Destroy(gameObject); //destroy the bomb
-						}
-				}
-		}
-
-	
-
-
+        Destroy(gameObject); //destroy the bomb
+    }
 }
