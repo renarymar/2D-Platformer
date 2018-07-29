@@ -2,11 +2,3 @@ Library/
 Build/
 Temp/
 .vs/
-UnityPackageManager/
-test.userprefs
-test.sln
-2D Platformer.userprefs
-2D Platformer.sln
-2D Platformer.csproj
-2D Platformer.Plugins.csproj
-2D Platformer.Editor.Plugins.csproj
